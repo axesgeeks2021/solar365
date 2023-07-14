@@ -56,7 +56,6 @@ function Customer() {
     const registerCustomer = async (e) => {
         e.preventDefault()
         try {
-            console.log('start')
             let myHeaders = new Headers();
             myHeaders.append('Authorization', `Token ${cookies.Authorization}`)
             
@@ -143,10 +142,11 @@ function Customer() {
                 <Button title="Create New Customer" background="green" margin="4px 0" color="white" onclick={() => setShowForm(!showForm)} />
                 <ul className="responsive-table">
                     <li className="table-header">
+                    <div className="col col-2 text-center text-slate-50 text-base font-bold">Username</div>
                         <div className="col col-2 text-center text-slate-50 text-base font-bold">Name</div>
                         <div className="col col-2 text-center text-slate-50 text-base font-bold">Email</div>
-                        <div className="col col-2 text-center text-slate-50 text-base font-bold">Mobile</div>
-                        <div className="col col-2 text-center text-slate-50 text-base font-bold">City / State</div>
+                        <div className="col col-2 text-center text-slate-50 text-base font-bold">Mobile / Alternate Number</div>
+                        <div className="col col-2 text-center text-slate-50 text-base font-bold">Full Address</div>
                         <div className="col col-2 text-center text-slate-50 text-base font-bold">Type</div>
                         <div className="col col-2 text-center text-slate-50 text-base font-bold">Apporved Status</div>
                     </li>
@@ -154,10 +154,12 @@ function Customer() {
                         customerList?.map((ele, idx) => {
                             return (
                                 <li className="table-row" key={idx}>
-                                    <div className={`col col-2 text-center`}>{ele.admin.user.first_name}</div>
+                                    <div className={`col col-2 text-center`}>{ele.admin.user.username}</div>
+                                    <div className={`col col-2 text-center`}>{ele.admin.user.first_name} {ele.admin.user.last_name}</div>
                                     <div className={`col col-2 text-center`}>{ele.admin.user.email}</div>
-                                    <div className={`col col-2 text-center`}>{ele.admin.user.phone}</div>
-                                    <div className={`col col-2 text-center`}>{ele.admin.city} / {ele.admin.state}</div>
+                                    <div className={`col col-2 text-center`}>{ele.admin.user.phone} / {ele.alternate_phone}</div>
+                                    {/* <div className={`col col-2 text-center`}>{ele.admin.city} / {ele.admin.state}</div> */}
+                                    <div className={`col col-2 text-center`}>{ele.admin.address_line}, {ele.admin.street},{ele.admin.city}, {ele.admin.state}, {ele.admin.postcode}, {ele.admin.country}</div>
                                     <div className={`col col-2 text-center`}>{ele.admin.user.user_type}</div>
                                     <div className={`col col-2 text-center`}>{ele.admin.user.has_approve === false ? 'Not Approved' : 'Approved'}</div>
                                 </li>
@@ -170,7 +172,7 @@ function Customer() {
                 showForm && 
             <div  style={{width: "100%", display: 'flex',position: 'absolute', background: 'white',  justifyContent: "center", alignItems: 'center', flexDirection: 'column'}}>
             <div style={{width: "100%", display: 'flex',  justifyContent: "center", alignItems: 'center'}}>
-                <Heading heading="Create or Register Customer" size="36px" weight="600"/>
+                <Heading heading="Add or Register Customer" size="36px" weight="600"/>
             </div>
             <form style={{width: "100%", display: 'flex',  justifyContent: "center", alignItems: 'center'}} onSubmit={registerCustomer}>
                 <div style={{width: "100%", display: 'flex',  justifyContent: "center", alignItems: 'center', flexDirection: 'row'}}>
@@ -191,6 +193,13 @@ function Customer() {
                 </div>
                 <div style={{width: "100%", display: 'flex',  justifyContent: "center", alignItems: 'center', flexDirection: 'row', margin: '5px'}}>
                     <FormInput placeholder="Utility Bill" onChange={handleChange} value={utilitybill} name="utilitybill"/>
+                    
+                        {/* <select placeholder="Panel" value={panels.id} name="panels" onChange={handleChange}> 
+                            <option > -- Select Panel -- </option>
+                            {panelsList.map((panels) => <option value={panels.id}>{panels.title}</option>)}
+                        </select> */}
+                            {/* <FormInput placeholder="Panels" value={panels} name="panels" onChange={handleChange} />
+                            <FormInput placeholder="Inverter" value={inverter} name="inverter" onChange={handleChange} /> */}
                     <FormInput placeholder="Assign To..." onChange={handleChange} value={assignto} name="assignto"/>
                 </div>
                 <div style={{width: "100%", display: 'flex',  justifyContent: "center", alignItems: 'center', flexDirection: 'row', margin: '5px'}}>

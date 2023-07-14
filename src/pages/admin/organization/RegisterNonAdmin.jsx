@@ -9,7 +9,7 @@ import AdminSideNavigation from '../menu/AdminSideNavigation';
 import { useCookies } from "react-cookie";
 import { useEffect } from 'react';
 
-
+import { Link } from 'react-router-dom'
 
 function RegisterNonAdmin() {
 
@@ -124,30 +124,34 @@ function RegisterNonAdmin() {
                 <AdminSideNavigation />
             </div>
             <div style={{ width: '100%', padding: '20px 10px' }}>
-                <Button title="Create New Admin" background="green" margin="4px 0" color="white" onclick={() => setShowForm(!showForm)} />
+                <Button title="Add New Company" background="green" margin="4px 0" color="white" onclick={() => setShowForm(!showForm)} />
                 <ul className="responsive-table">
                     <li className="table-header">
+                    <div className="col col-2 text-center text-slate-50 text-base font-bold">Username</div>
                         <div className="col col-2 text-center text-slate-50 text-base font-bold">Name</div>
                         <div className="col col-2 text-center text-slate-50 text-base font-bold">Company</div>
-                        <div className="col col-2 text-center text-slate-50 text-base font-bold">Mobile</div>
-                        <div className="col col-2 text-center text-slate-50 text-base font-bold">City / State</div>
-                        <div className="col col-2 text-center text-slate-50 text-base font-bold">Type</div>
+                        <div className="col col-2 text-center text-slate-50 text-base font-bold">Mobile / Alternate Number</div>
+                        <div className="col col-2 text-center text-slate-50 text-base font-bold">Full Address</div>
                         <div className="col col-2 text-center text-slate-50 text-base font-bold">Apporved Status</div>
                     </li>
-                    {/* {
+                    {
                         nonAdminList?.map((ele, idx) => {
+                            
                             return (
+                                <Link to="/non-admin-details" state={{ele}} key={idx}>
                                 <li className="table-row" key={idx}>
-                                    <div className={`col col-2 text-center`}>{ele.admin.user.first_name}</div>
+                                <div className={`col col-2 text-center`}>{ele.admin.user.username}</div>
+                                    <div className={`col col-2 text-center`}>{ele.admin.user.first_name} {ele.admin.user.last_name}</div>
                                     <div className={`col col-2 text-center`}>{ele.company_name}</div>
-                                    <div className={`col col-2 text-center`}>{ele.admin.user.phone}</div>
-                                    <div className={`col col-2 text-center`}>{ele.admin.city} / {ele.admin.state}</div>
-                                    <div className={`col col-2 text-center`}>{ele.admin.user.user_type}</div>
+                                    <div className={`col col-2 text-center`}>{ele.admin.user.phone} / {ele.alternate_phone}</div>
+                                    {/* <div className={`col col-2 text-center`}>{ele.admin.city} / {ele.admin.state}</div> */}
+                                    <div className={`col col-2 text-center`}>{ele.admin.address_line}, {ele.admin.street},{ele.admin.city}, {ele.admin.state}, {ele.admin.postcode}, {ele.admin.country}</div>
                                     <div className={`col col-2 text-center`}>{ele.admin.user.has_approve === false ? 'Not Approved' : 'Approved'}</div>
                                 </li>
+                                </Link>
                             )
                         })
-                    } */}
+                    }
                 </ul>
             </div>
             {

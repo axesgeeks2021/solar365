@@ -17,7 +17,6 @@ function AdminProfile() {
 
   const [cookies] = useCookies();
 
-
   const [changeText, setChangeText] = useState('')
 
   const [value, setValue] = useState({
@@ -37,7 +36,7 @@ function AdminProfile() {
 
   const [display, setDisplay] = useState({
     forget: false,
-    change: false
+    change: false,
   })
 
   const fetchAdminData = () => {
@@ -63,7 +62,7 @@ function AdminProfile() {
     }
   }
 
-  const changePassword = () => {
+  const forgetPassword = () => {
 
     if (changeText === "") {
       alert('Enter your valid email id!')
@@ -93,8 +92,8 @@ function AdminProfile() {
       console.log(error)
     }
   }
-
-  const forgetPassword = () => {
+  
+  const changePassword = () => {
 
     if (currentPassword === "" || password === "" || confirmPassword === "") {
       alert("Please fill all the fields!")
@@ -144,6 +143,7 @@ function AdminProfile() {
           <div style={{ width: "100%", display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '2%', padding: '0% 4%' }}>
             <Button title="Change Password" background="yellow" color="black" onclick={() => setDisplay({ change: !display.change, forget: false })} />
             <Button title="Forget Password" background="red" color="white" onclick={() => setDisplay({ forget: !display.forget, change: false })} />
+            <Button title="Logout" background="red" color="white" onclick={() => setDisplay({ forget: !display.forget, change: false })} />
           </div>
           <div style={{ margin: '15px 0' }}>
             <article className="card">
@@ -169,19 +169,29 @@ function AdminProfile() {
             </article>
           </div>
           {
-            display.change && <div style={{ width: "50%", background: 'white', position: 'absolute', overflow: 'hidden', padding: "10% 5%", boxShadow: "2px 2px 10px 1px rgba(0,0,0,0.4), -2px -2px 10px 1px rgba(0,0,0,0.4)", borderRadius: 4 }}>
+            display.forget && <div style={{ width: "50%", background: 'white', position: 'absolute', overflow: 'hidden', padding: "10% 5%", boxShadow: "2px 2px 10px 1px rgba(0,0,0,0.4), -2px -2px 10px 1px rgba(0,0,0,0.4)", borderRadius: 4 }}>
               <FormInput placeholder="Enter your valid e-Mail id..." width="65%" value={changeText} onChange={e => setChangeText(e.target.value)} />
-              <Button title="Submit" background="green" color="white" onclick={changePassword} />
+              <Button title="Submit" background="green" color="white" onclick={forgetPassword} />
               <Button title="Close" background="orange" color="white" onclick={() => setDisplay({ change: false })} margin="0 10px" />
             </div>
           } 
+          {/* {
+            display.logout && <div style={{ width: "50%", background: 'white', position: 'absolute', overflow: 'hidden', padding: "10% 5%", boxShadow: "2px 2px 10px 1px rgba(0,0,0,0.4), -2px -2px 10px 1px rgba(0,0,0,0.4)", borderRadius: 4 }}>
+              <h4>Are you sure you want to log out ?</h4>
+              <div style={{ display: "flex", justifyContent: 'flex-end', alignItems: 'center', width: "100%", gap: '10px' }}>
+              <Button title="Yes" background="green" color="white" onclick={Logout} />
+            <Button title="No" background="orange" color="white" onclick={() => setDisplay({ logout: false })} />
+            </div>
+          </div>
+
+          }  */}
           {
-            display.forget && <div style={{ width: "50%", background: 'white', position: 'absolute', overflow: 'hidden', gap: '20px', padding: "6% 5%", boxShadow: "2px 2px 10px 1px rgba(0,0,0,0.4), -2px -2px 10px 1px rgba(0,0,0,0.4)", borderRadius: 4, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+            display.change && <div style={{ width: "50%", background: 'white', position: 'absolute', overflow: 'hidden', gap: '20px', padding: "6% 5%", boxShadow: "2px 2px 10px 1px rgba(0,0,0,0.4), -2px -2px 10px 1px rgba(0,0,0,0.4)", borderRadius: 4, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
               <FormInput placeholder="Current Password" width="90%" value={currentPassword} onChange={handleChange} name="currentPassword" />
               <FormInput placeholder="Password" width="90%" value={password} onChange={handleChange} name="password" />
               <FormInput placeholder="Confirm Password" width="90%" value={confirmPassword} onChange={handleChange} name="confirmPassword" />
               <div style={{ display: "flex", justifyContent: 'flex-end', alignItems: 'center', width: "100%", gap: '10px' }}>
-                <Button title="Submit" background="green" color="white" onclick={forgetPassword} />
+                <Button title="Submit" background="green" color="white" onclick={changePassword} />
                 <Button title="Close" background="orange" color="white" onclick={() => setDisplay({ forget: false })} />
               </div>
               <p><span>Note : </span>Password should be contain atleast 1 capital alphabet, 1 number , 1 small alphabet and 1 symbol and minimum of 8 words</p>

@@ -56,6 +56,12 @@ import NonAdminCustomer from "./pages/nonAdmin/organization/Customer"
 import NonAdminOrders from "./pages/nonAdmin/orders/NonAdminOrders"
 import NonAdminCalendar from "./pages/nonAdmin/calendar/Calender"
 import Practice from "./pages/nonAdmin/Practice";
+import AdminDetails from "./pages/admin/user/AdminDetails";
+import NonAdminDetails from "./pages/admin/user/NonAdminDetails";
+import TeamDetails from "./pages/admin/user/TeamDetails";
+import CustomerDetails from "./pages/admin/user/CustomerDetails";
+import InstallerDetails from "./pages/admin/user/InstallerDetails";
+import InstallerAvailibilityDetails from "./pages/admin/user/InstallerAvailibilityDetails";
 
 
 function App() {
@@ -172,6 +178,17 @@ function App() {
           <Route path="/approved-company" element={<ApprovedCompany />} />
           <Route path="/admin-profile" element={<AdminProfile />} />
           <Route path="/login" element={<Login />} />
+          
+          {/* add by Afrin */}
+          <Route path="/register-non-admin" element={<RegisterNonAdmin />} />
+          <Route path="/register-team" element={<RegisterTeam />} />
+          <Route path="/admin-details" element={<AdminDetails />} />
+          <Route path="/non-admin-details" element={<NonAdminDetails />} />
+          <Route path="/team-details" element={<TeamDetails />} />
+          <Route path="/customer-details" element={<CustomerDetails />} />
+          <Route path="/installer-details" element={<InstallerDetails />} />
+          <Route path="/installer-avail-details" element={<InstallerAvailibilityDetails />} />
+
         </Routes>
       </>
     )

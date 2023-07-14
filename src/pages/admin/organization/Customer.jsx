@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import FormInput from '../../../components/inputsfield/FormInput'
 
 import Button from "../../../components/Button/Button";
-
+import { Link } from 'react-router-dom';
 import Heading from "../../../components/heading/Heading"
 import AdminSideNavigation from '../menu/AdminSideNavigation';
 import { useCookies } from "react-cookie";
@@ -18,6 +18,8 @@ function Customer() {
     const [customerList, setCustomerList] = useState([])
 
     const [file, setFile] = useState()
+    
+    const [assignTo, setAssignToList] = useState([])
 
     const [value, setValue] = useState({
         firstname: "",
@@ -126,14 +128,38 @@ function Customer() {
             console.log(error)
         }
     }
-
+    const fetchAssignToList = () => {
+        try {
+          // setLoading(true)
+          var myHeaders = new Headers();
+          myHeaders.append("Authorization", `Token ${cookies.Authorization}`);
+          myHeaders.append("Cookie", "csrftoken=svQq77wcRBEpbzWkYfqDJcnsopUicTNd; sessionid=1rloxayuhazv0kteh8za8nnulqar1bf1");
+    
+          var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+          };
+    
+          fetch(`http://65.0.45.255:8000/assign_to/`, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+              // setLoading(false)
+              setAssignToList(result)
+            })
+            .catch(error => console.log('error', error));
+    
+        } catch (error) {
+          console.log(error)
+        }
+      }
     useEffect(() => {
         const subscribe = fetchData()
+        const assignToSubscrib = fetchAssignToList()
 
-        return () => subscribe
+        return () => subscribe, assignToSubscrib
     }, [])
-
-
+    
   return (
     <>
         <div style={{width: "100%", display: 'flex', justifyContent: 'center'}} >
@@ -141,27 +167,32 @@ function Customer() {
                 <AdminSideNavigation />
             </div>
             <div style={{ width: '100%', padding: '20px 10px' }}>
-                <Button title="Create New Admin" background="green" margin="4px 0" color="white" onclick={() => setShowForm(!showForm)} />
+                <Button title="Add New Customer" background="green" margin="4px 0" color="white" onclick={() => setShowForm(!showForm)} />
                 <ul className="responsive-table">
                     <li className="table-header">
+                    <div className="col col-2 text-center text-slate-50 text-base font-bold">Username</div>
                         <div className="col col-2 text-center text-slate-50 text-base font-bold">Name</div>
                         <div className="col col-2 text-center text-slate-50 text-base font-bold">Email</div>
-                        <div className="col col-2 text-center text-slate-50 text-base font-bold">Mobile</div>
-                        <div className="col col-2 text-center text-slate-50 text-base font-bold">City / State</div>
-                        <div className="col col-2 text-center text-slate-50 text-base font-bold">Type</div>
-                        <div className="col col-2 text-center text-slate-50 text-base font-bold">Apporved Status</div>
+                        <div className="col col-2 text-center text-slate-50 text-base font-bold">Mobile / Alternate Number</div>
+                        <div className="col col-2 text-center text-slate-50 text-base font-bold">Full Address</div>
+                        {/* <div className="col col-2 text-center text-slate-50 text-base font-bold">Type</div>
+                        <div className="col col-2 text-center text-slate-50 text-base font-bold">Apporved Status</div> */}
                     </li>
                     {
                         customerList?.map((ele, idx) => {
                             return (
+                                <Link to="/customer-details" state={{ele}} key={idx}>
                                 <li className="table-row" key={idx}>
-                                    <div className={`col col-2 text-center`}>{ele.admin.user.first_name}</div>
+                                <div className={`col col-2 text-center`}>{ele.admin.user.username}</div>
+                                    <div className={`col col-2 text-center`}>{ele.admin.user.first_name} {ele.admin.user.last_name}</div>
                                     <div className={`col col-2 text-center`}>{ele.admin.user.email}</div>
-                                    <div className={`col col-2 text-center`}>{ele.admin.user.phone}</div>
-                                    <div className={`col col-2 text-center`}>{ele.admin.city} / {ele.admin.state}</div>
-                                    <div className={`col col-2 text-center`}>{ele.admin.user.user_type}</div>
-                                    <div className={`col col-2 text-center`}>{ele.admin.user.has_approve === false ? 'Not Approved' : 'Approved'}</div>
+                                    <div className={`col col-2 text-center`}>{ele.admin.user.phone} / {ele.alternate_phone}</div>
+                                    {/* <div className={`col col-2 text-center`}>{ele.admin.city} / {ele.admin.state}</div> */}
+                                    <div className={`col col-2 text-center`}>{ele.admin.address_line}, {ele.admin.street},{ele.admin.city}, {ele.admin.state}, {ele.admin.postcode}, {ele.admin.country}</div>
+                                    {/* <div className={`col col-2 text-center`}>{ele.admin.user.user_type}</div>
+                                    <div className={`col col-2 text-center`}>{ele.admin.user.has_approve === false ? 'Not Approved' : 'Approved'}</div> */}
                                 </li>
+                                </Link>
                             )
                         })
                     }
@@ -171,7 +202,7 @@ function Customer() {
                 showForm && 
             <div  style={{width: "100%", display: 'flex',position: 'absolute', background: 'white',  justifyContent: "center", alignItems: 'center', flexDirection: 'column'}}>
             <div style={{width: "100%", display: 'flex',  justifyContent: "center", alignItems: 'center'}}>
-                <Heading heading="Create or Register Customer" size="36px" weight="600"/>
+                <Heading heading="Add or Register Customer" size="36px" weight="600"/>
             </div>
             <form style={{width: "100%", display: 'flex',  justifyContent: "center", alignItems: 'center'}} onSubmit={registerCustomer}>
                 <div style={{width: "100%", display: 'flex',  justifyContent: "center", alignItems: 'center', flexDirection: 'row'}}>
@@ -191,8 +222,13 @@ function Customer() {
                     <FormInput placeholder="Project Capacity..." onChange={handleChange} value={projectcapacity} name="projectcapacity"/>
                 </div>
                 <div style={{width: "100%", display: 'flex',  justifyContent: "center", alignItems: 'center', flexDirection: 'row', margin: '5px'}}>
-                    <FormInput placeholder="Utility Bill" onChange={handleChange} value={utilitybill} name="utilitybill"/>
-                    <FormInput placeholder="Assign To..." onChange={handleChange} value={assignto} name="assignto"/>
+                    
+                        <select placeholder="Assign" value={assignto} name="assignto" onChange={handleChange}> 
+                            <option > -- Assign To -- </option>
+                            {assignTo.map((assignto) => <option value={assignto.id}>{assignto.email}</option>)}
+                        </select>
+                        <FormInput placeholder="Utility Bill" onChange={handleChange} value={utilitybill} name="utilitybill"/>
+                    {/* <FormInput placeholder="Assign To..." onChange={handleChange} value={assignto} name="assignto"/> */}
                 </div>
                 <div style={{width: "100%", display: 'flex',  justifyContent: "center", alignItems: 'center', flexDirection: 'row', margin: '5px'}}>
                     <FormInput placeholder="Supply..." onChange={handleChange} value={supply} name="supply"/>

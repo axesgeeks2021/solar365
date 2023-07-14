@@ -8,6 +8,7 @@ import AdminSideNavigation from '../menu/AdminSideNavigation';
 
 import { useCookies } from "react-cookie";
 
+import { Link } from 'react-router-dom'
 
 function RegisterTeam() {
 
@@ -90,7 +91,9 @@ function RegisterTeam() {
     const fetchData = () => {
         try {
             const myHeaders = new Headers();
-            myHeaders.append("Authorization", "Token c3fada3b7b528ba00f0beab9f6081b37b462ac08");
+            // myHeaders.append("Authorization", "Token c3fada3b7b528ba00f0beab9f6081b37b462ac08");
+            // myHeaders.append("Cookie", "csrftoken=svQq77wcRBEpbzWkYfqDJcnsopUicTNd; sessionid=1rloxayuhazv0kteh8za8nnulqar1bf1");
+            myHeaders.append("Authorization", `Token ${cookies.Authorization}`);
             myHeaders.append("Cookie", "csrftoken=svQq77wcRBEpbzWkYfqDJcnsopUicTNd; sessionid=1rloxayuhazv0kteh8za8nnulqar1bf1");
 
             const requestOptions = {
@@ -124,27 +127,31 @@ function RegisterTeam() {
                 <AdminSideNavigation />
             </div>
             <div style={{ width: '100%', padding: '20px 10px' }}>
-                <Button title="Create New Admin" background="green" margin="4px 0" color="white" onclick={() => setShowForm(!showForm)} />
+                <Button title="Add New Team" background="green" margin="4px 0" color="white" onclick={() => setShowForm(!showForm)} />
                 <ul className="responsive-table">
                     <li className="table-header">
+                    <div className="col col-2 text-center text-slate-50 text-base font-bold">Username</div>
                         <div className="col col-2 text-center text-slate-50 text-base font-bold">Name</div>
                         <div className="col col-2 text-center text-slate-50 text-base font-bold">Email</div>
-                        <div className="col col-2 text-center text-slate-50 text-base font-bold">Mobile</div>
-                        <div className="col col-2 text-center text-slate-50 text-base font-bold">City / State</div>
-                        <div className="col col-2 text-center text-slate-50 text-base font-bold">Type</div>
-                        <div className="col col-2 text-center text-slate-50 text-base font-bold">Apporved Status</div>
+                        <div className="col col-2 text-center text-slate-50 text-base font-bold">Mobile / Alternate Number</div>
+                        <div className="col col-2 text-center text-slate-50 text-base font-bold">Full Address</div>
+                        {/* <div className="col col-2 text-center text-slate-50 text-base font-bold">Type</div>
+                        <div className="col col-2 text-center text-slate-50 text-base font-bold">Apporved Status</div> */}
                     </li>
                     {
                         teamList?.map((ele, idx) => {
                             return (
+                                <Link to="/team-details" state={{ele}} key={idx}>
                                 <li className="table-row" key={idx}>
-                                    <div className={`col col-2 text-center`}>{ele.admin.user.first_name}</div>
+                                <div className={`col col-2 text-center`}>{ele.admin.user.username}</div>
+                                    <div className={`col col-2 text-center`}>{ele.admin.user.first_name} {ele.admin.user.last_name}</div>
                                     <div className={`col col-2 text-center`}>{ele.admin.user.email}</div>
-                                    <div className={`col col-2 text-center`}>{ele.admin.user.phone}</div>
-                                    <div className={`col col-2 text-center`}>{ele.admin.city} / {ele.admin.state}</div>
-                                    <div className={`col col-2 text-center`}>{ele.admin.user.user_type}</div>
-                                    <div className={`col col-2 text-center`}>{ele.admin.user.has_approve === false ? 'Not Approved' : 'Approved'}</div>
+                                    <div className={`col col-2 text-center`}>{ele.admin.user.phone} / {ele.alternate_phone}</div>
+                                    <div className={`col col-2 text-center`}>{ele.admin.address_line}, {ele.admin.street},{ele.admin.city}, {ele.admin.state}, {ele.admin.postcode}, {ele.admin.country}</div>
+                                    {/* <div className={`col col-2 text-center`}>{ele.admin.user.user_type}</div>
+                                    <div className={`col col-2 text-center`}>{ele.admin.user.has_approve === false ? 'Not Approved' : 'Approved'}</div> */}
                                 </li>
+                                </Link>
                             )
                         })
                     }

@@ -8,7 +8,7 @@ function DocumentWarrantyListing({ document }) {
           <span>Compliance</span>
           <span>{document.data?.install_docs?.compliance_status}</span>
           <a
-            href={`http://3.111.192.129:8000/${document.data?.install_docs?.compliance_docs}`}
+            href={`http://65.0.45.255:8000/${document.data?.install_docs?.compliance_docs}`}
             download
             className={`${
               document.data?.install_docs?.compliance_status === "Received"
@@ -23,7 +23,7 @@ function DocumentWarrantyListing({ document }) {
           <span>Contract</span>
           <span>{document.data?.install_docs?.contract_status}</span>
           <a
-            href={`http://3.111.192.129:8000/${document.data?.install_docs?.contract_docs}`}
+            href={`http://65.0.45.255:8000/${document.data?.install_docs?.contract_docs}`}
             download
             className={`${
               document.data?.install_docs?.contract_status === "Received"
@@ -38,7 +38,7 @@ function DocumentWarrantyListing({ document }) {
           <span>Energy Yield Report</span>
           <span>{document.data?.install_docs?.energy_yield_report_status}</span>
           <a
-            href={`http://3.111.192.129:8000/${document.data?.install_docs?.energy_yield_report_docs}`}
+            href={`http://65.0.45.255:8000/${document.data?.install_docs?.energy_yield_report_docs}`}
             download
             className={`${
               document.data?.install_docs?.energy_yield_report_status ===
@@ -54,7 +54,7 @@ function DocumentWarrantyListing({ document }) {
           <span>Grid Approval</span>
           <span>{document.data?.install_docs?.grid_approval_status}</span>
           <a
-            href={`http://3.111.192.129:8000/${document.data?.install_docs?.grid_approval_docs}`}
+            href={`http://65.0.45.255:8000/${document.data?.install_docs?.grid_approval_docs}`}
             download
             className={`${
               document.data?.install_docs?.grid_approval_status === "Received"
@@ -69,7 +69,7 @@ function DocumentWarrantyListing({ document }) {
           <span>NOC</span>
           <span>{document.data?.install_docs?.noc_status}</span>
           <a
-            href={`http://3.111.192.129:8000/${document.data?.install_docs?.noc_docs}`}
+            href={`http://65.0.45.255:8000/${document.data?.install_docs?.noc_docs}`}
             download
             className={`${
               document.data?.install_docs?.noc_status === "Received"
@@ -84,7 +84,7 @@ function DocumentWarrantyListing({ document }) {
           <span>PV Site Info</span>
           <span>{document.data?.install_docs?.pv_site_info_status}</span>
           <a
-            href={`http://3.111.192.129:8000/${document.data?.install_docs?.pv_site_info_docs}`}
+            href={`http://65.0.45.255:8000/${document.data?.install_docs?.pv_site_info_docs}`}
             download
             className={`${
               document.data?.install_docs?.pv_site_info_status === "Received"
@@ -99,7 +99,7 @@ function DocumentWarrantyListing({ document }) {
           <span>Safety Certificate</span>
           <span>{document.data?.install_docs?.safety_certificate_status}</span>
           <a
-            href={`http://3.111.192.129:8000/${document.data?.install_docs?.safety_certificate_docs}`}
+            href={`http://65.0.45.255:8000/${document.data?.install_docs?.safety_certificate_docs}`}
             download
             className={`${
               document.data?.install_docs?.safety_certificate_status ===

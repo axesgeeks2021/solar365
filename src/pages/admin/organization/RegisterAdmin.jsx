@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import FormInput from '../../../components/inputsfield/FormInput'
-
+import { Link } from 'react-router-dom'
 import Button from "../../../components/Button/Button";
 
 import Heading from "../../../components/heading/Heading"
@@ -123,27 +123,32 @@ function RegisterAdmin() {
                 <AdminSideNavigation />
             </div>
             <div style={{ width: '100%', padding: '20px 10px' }}>
-                <Button title="Create New Admin" background="green" margin="4px 0" color="white" onclick={() => setShowForm(!showForm)}/>
+                <Button title="Add New Admin" background="green" margin="4px 0" color="white" onclick={() => setShowForm(!showForm)}/>
                 <ul className="responsive-table">
                     <li className="table-header">
+                    <div className="col col-2 text-center text-slate-50 text-base font-bold">Username</div>
                         <div className="col col-2 text-center text-slate-50 text-base font-bold">Name</div>
                         <div className="col col-2 text-center text-slate-50 text-base font-bold">Email</div>
                         <div className="col col-2 text-center text-slate-50 text-base font-bold">Mobile</div>
-                        <div className="col col-2 text-center text-slate-50 text-base font-bold">City / State</div>
+                        <div className="col col-2 text-center text-slate-50 text-base font-bold">Full Address</div>
                         <div className="col col-2 text-center text-slate-50 text-base font-bold">Type</div>
-                        <div className="col col-2 text-center text-slate-50 text-base font-bold">Apporved Status</div>
+                        {/* <div className="col col-2 text-center text-slate-50 text-base font-bold">Apporved Status</div> */}
                     </li>
                     {
+                        adminList.length < 1 ? <h2>There is no admin available right now...</h2> :
                         adminList?.map((ele, idx) => {
                             return(
+                                <Link to="/admin-details" state={{ele}} key={idx}>
                                 <li className="table-row" key={idx}>
-                                <div className={`col col-2 text-center`}>{ele.user.first_name}</div>
+                                <div className={`col col-2 text-center`}>{ele.user.username}</div>
+                                <div className={`col col-2 text-center`}>{ele.user.first_name} {ele.user.last_name}</div>
                                 <div className={`col col-2 text-center`}>{ele.user.email}</div>
                                 <div className={`col col-2 text-center`}>{ele.user.phone}</div>
-                                <div className={`col col-2 text-center`}>{ele.city} / {ele.state}</div>
+                                <div className={`col col-2 text-center`}>{ele.address_line}, {ele.street},{ele.city}, {ele.state}, {ele.postcode}, {ele.country}</div>
                                 <div className={`col col-2 text-center`}>{ele.user.user_type}</div>
-                                <div className={`col col-2 text-center`}>{ele.user.has_approve === false ? 'Not Approved' : 'Approved'}</div>
+                                {/* <div className={`col col-2 text-center`}>{ele.user.has_approve === false ? 'Not Approved' : 'Approved'}</div> */}
                                 </li>
+                                </Link>
                             )
                         })
                     }
