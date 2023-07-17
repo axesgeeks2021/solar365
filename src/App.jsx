@@ -177,7 +177,6 @@ function App() {
         <Route path="/non-admin/practice" element={<Practice />} />
         <Route path="/non-admin/update-profile" element={<NonAdminUpdateProfile />} />
         <Route path="/login" element={<Login />} />
-
       </Routes>
     )
   }
