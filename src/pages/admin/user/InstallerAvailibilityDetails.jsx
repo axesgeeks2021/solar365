@@ -35,7 +35,6 @@ function InstallerAvailibilityDetails() {
     }
     
     const updateProfile = async () => {
-        alert("ADDD")
         try {
             setLoading(true)
             let myHeaders = new Headers();

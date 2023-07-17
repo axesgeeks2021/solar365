@@ -89,8 +89,6 @@ function AdminOrders() {
 
   const updateOrder = async (e) => {
     e.preventDefault()
-    alert("Hii Afrim")
-    e.preventDefault()
     try {
       setLoading(true)
       let myHeaders = new Headers();

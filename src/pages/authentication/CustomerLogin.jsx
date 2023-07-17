@@ -36,6 +36,7 @@ function Login() {
     e.preventDefault();
     const res = await axios.post(`http://65.0.45.255:8000/login/`, body);
     const data = await res.data;
+    setCookie("id", data.user.id);
     setCookie("Authorization", data.token);
 
     localStorage.setItem('auth', JSON.stringify(data))

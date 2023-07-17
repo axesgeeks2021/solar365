@@ -4,6 +4,7 @@ import Button from '../../../components/Button/Button';
 import FormInput from '../../../components/inputsfield/FormInput';
 
 import { useCookies } from "react-cookie";
+import { useLocation } from 'react-router-dom'
 
 // import {BiSolidUserBadge} from "react-icons/bi"
 import {HiOutlineMail} from "react-icons/hi"
@@ -50,7 +51,7 @@ function AdminProfile() {
         redirect: 'follow'
       };
 
-      fetch("http://65.0.45.255:8000/get_admin_profile/1/?query=ADMIN", requestOptions)
+      fetch(`http://65.0.45.255:8000/get_admin_profile/${cookies.id}/?query=ADMIN`, requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result)
