@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 import "./style/style.css";
 
 import "react-widgets/styles.css";
+import "react-toastify/dist/ReactToastify.css";
 
 import Homepage from "./pages/customer/Homepage";
 import Login from "./pages/authentication/CustomerLogin";
@@ -19,8 +21,6 @@ import ReferAFriend from "./pages/customer/ReferAFriend";
 import PreSiteRiskAssessment from "./pages/customer/PreSiteRiskAssessment";
 import CallSupport from "./pages/customer/CallSupport";
 
-import { useCookies } from "react-cookie";
-import "react-toastify/dist/ReactToastify.css";
 
 import AdminLogin from "./pages/authentication/AdminLogin";
 import AdminDashboard from "./pages/admin/adminDashboard/AdminDashboard";
@@ -79,7 +79,7 @@ function App() {
     return navigate("/login");
   };
 
-  const auth = JSON.parse(localStorage.getItem('auth'))
+  const auth = JSON.parse(localStorage.getItem('auth'))``
 
   useEffect(() => {
     if (!cookies.Authorization) {
@@ -123,7 +123,6 @@ function App() {
             path="/customer/pre-site-risk-assessment"
             element={<PreSiteRiskAssessment />}
           />
-          {/* <Route path="accordian" element={<Accordian />} /> */}
         </Routes>
       </>
     )

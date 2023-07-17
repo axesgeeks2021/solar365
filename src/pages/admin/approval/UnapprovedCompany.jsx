@@ -46,7 +46,7 @@ function UnapprovedCompany() {
         try {
             setLoading(true)
             const myHeaders = new Headers();
-            myHeaders.append("Authorization", "Token 3796b9107c3e667448dc83df6d802bdde3f1f988");
+            myHeaders.append('Authorization', `Token ${cookies.Authorization}`)
 
             const formdata = new FormData();
             formdata.append("has_approve", "true");

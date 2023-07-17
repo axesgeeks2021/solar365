@@ -1089,8 +1089,7 @@ ol.gradient-list > li::before {
     }
     .input__box input{
       width: 100%;
-    };
-   
+    }
   }
   @media (max-width: 500px){
     .refer__form{
