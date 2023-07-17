@@ -3,6 +3,7 @@ import AdminSideNavigation from '../../admin/menu/AdminSideNavigation';
 import Button from '../../../components/Button/Button';
 import FormInput from '../../../components/inputsfield/FormInput';
 import { useCookies } from 'react-cookie';
+import NonAdminSideNavigation from '../menu/NonAdminSideNavigation';
 
 function NonAdminProfile() {
 
@@ -128,7 +129,7 @@ function NonAdminProfile() {
     <>
       <div style={{ width: "100%", display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
         <div style={{ width: "20%" }}>
-          <AdminSideNavigation />
+          <NonAdminSideNavigation />
         </div>
         <div style={{ width: "80%", display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '2rem 0', flexDirection: 'column' }}>
           <div style={{ width: "100%", display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '2%', padding: '0% 4%' }}>

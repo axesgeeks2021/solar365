@@ -22,6 +22,7 @@ function AdminSideNavigation() {
     onSelect={({itemId}) => {
       navigate(itemId)
     }}
+
     items={[
       {
         title: 'Dashboard',

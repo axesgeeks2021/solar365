@@ -16,7 +16,26 @@ function Battery() {
 
     const [cookies] = useCookies();
 
+    const [file, setFile] = useState(null)
 
+    const [text, setText] = useState({
+        code: "",
+        manufacturer: "",
+        title: "",
+        totalEnergy: "",
+        productWarranty: "",
+        myList: ""
+    })
+
+    const { code, manufacturer, myList, productWarranty, title, totalEnergy } = text
+
+    const handleText = e => {
+        setText({ ...text, [e.target.name]: e.target.value })
+    }
+
+    const handleFile = e => {
+        setFile(e.target.files[0])
+    }
 
     const fetchRecord = async () => {
         try {
@@ -38,6 +57,40 @@ function Battery() {
         }
     }
 
+    const createBattery = (e) => {
+        e.preventDefault()
+        try {
+            const myHeaders = new Headers();
+            myHeaders.append("Cookie", "csrftoken=svQq77wcRBEpbzWkYfqDJcnsopUicTNd");
+            myHeaders.append('Authorization', `Token ${cookies.Authorization}`)
+
+            const formdata = new FormData();
+            formdata.append("code", code);
+            formdata.append("battery_logo", file);
+            formdata.append("manufacturer", manufacturer);
+            formdata.append("title", title);
+            formdata.append("total_energy", totalEnergy);
+            formdata.append("product_warranty", productWarranty);
+            formdata.append("my_list", "true");
+
+            const requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: formdata,
+                redirect: 'follow'
+            };
+
+            fetch("http://65.0.45.255:8000/battery_module/", requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result)
+                })
+                .catch(error => console.log('error', error));
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         const subscribe = fetchRecord()
 
@@ -52,7 +105,7 @@ function Battery() {
                 </div>
                 <div className="container py-5">
                     <div className='py-2 flex justify-end'>
-                        <Button title="Create New Panel" background="aqua" color="gray" onclick={() => setDisplayForm(true)} />
+                        <Button title="Create New Battries" background="aqua" color="gray" onclick={() => setDisplayForm(true)} />
                     </div>
                     <ul className="responsive-table">
                         <li className="table-header">
@@ -82,18 +135,18 @@ function Battery() {
                 {/* <ImCross style={{position: 'absolute', top: '5px', left: '10px', cursor: 'pointer'}} onClick={() => setDisplayForm(false)}/> */}
                 <div className='my-10 flex flex-col justify-center items-center gap-3' style={{ width: "80%" }}>
                     <Heading heading="Enter details for creating new Panels" />
-                    <FormInput width="100%" placeholder="Title" />
-                    <FormInput width="100%" placeholder="Product Code" />
-                    <FormInput width="100%" placeholder="upload your logo" />
-                    <FormInput width="100%" placeholder="Inverter Type" />
-                    <FormInput width="100%" placeholder="Rated Output Power..." />
-                    <FormInput width="100%" placeholder="Product warranty" />
-                    <FormInput width="100%" placeholder="Additional part warranty" />
-                    <FormInput width="100%" placeholder="Manufacturer" />
-                    <div className='flex gap-5 justify-end items-end' style={{ width: "100%" }}>
-                        <Button title="Submit" background="orange" />
-                        <Button title="Close" background="gray" type="button" onclick={() => setDisplayForm(false)} />
-                    </div>
+                    <form style={{width: '100%'}} className='my-10 flex flex-col justify-center items-center gap-3' onSubmit={createBattery}>
+                        <FormInput width="100%" placeholder="Title" value={title} name="title" onChange={handleText}  />
+                        <FormInput width="100%" placeholder="Product Code" value={code} name="code" onChange={handleText}  />
+                        <FormInput width="100%" placeholder="upload your logo" type="file" onChange={handleFile}  />
+                        <FormInput width="100%" placeholder="Rated Output Power..." value={totalEnergy} name="totalEnergy" onChange={handleText}  />
+                        <FormInput width="100%" placeholder="Product warranty" value={productWarranty} name="productWarranty" onChange={handleText}  />
+                        <FormInput width="100%" placeholder="Manufacturer" value={manufacturer} name="manufacturer" onChange={handleText}  />
+                        <div className='flex gap-5 justify-end items-end' style={{ width: "100%" }}>
+                            <Button title="Submit" background="orange" type="submit"/>
+                            <Button title="Close" background="gray" type="button" onclick={() => setDisplayForm(false)} />
+                        </div>
+                    </form>
                 </div>
             </div>
         </>

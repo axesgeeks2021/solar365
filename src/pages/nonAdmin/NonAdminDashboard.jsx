@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import Loading from '../../components/loading/Loading'
 import OrderList from '../../components/orders/OrderList'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import NonAdminSideNavigation from '../nonAdmin/menu/NonAdminSideNavigation'
 import Button from '../../components/Button/Button'
 import { useCookies } from 'react-cookie'
@@ -16,9 +16,16 @@ import { fetchRequest } from '../../utils/FetchRequest'
 
 import Select from "react-select"
 
+import {BiLogOut} from "react-icons/bi"
+
+
 
 
 function NonAdminDashboard() {
+
+    const navigate = useNavigate()
+
+    const [cookies, setCookies, removeCookies] = useCookies();
 
     const [loading, setLoading] = useState(false)
 
@@ -27,10 +34,6 @@ function NonAdminDashboard() {
 
     const [moduleList, setModuleList] = useState([])
     const [inverterList, setInverterList] = useState([])
-
-    console.log('inverter type', inverterList)
-
-    const [cookies] = useCookies();
 
     const [file, setFile] = useState()
 
@@ -133,7 +136,12 @@ function NonAdminDashboard() {
 
     const getDetails = async () => {
         const requestInverter = await fetchRequest(cookies.Authorization, 'http://65.0.45.255:8000/inverter_module/')
-            setInverterList(requestInverter)
+        return setInverterList(requestInverter)
+    }
+
+    const logout = () => {
+        removeCookies('Authorization')
+        return navigate ('/login')
     }
 
 
@@ -154,6 +162,10 @@ function NonAdminDashboard() {
         <div className='container-fluid' style={{ display: 'flex', flexDirection: 'row' }}>
             <div>
                 <NonAdminSideNavigation />
+                <div style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '10px', padding: '0 23px'}}>
+                <BiLogOut />
+                <Button title="Logout" onclick={logout}/>
+                </div>
             </div>
             <div className="container py-5">
                 <div className='py-2 flex justify-end'>
@@ -215,8 +227,8 @@ function NonAdminDashboard() {
                             <FormInput placeholder="Nmi Number" value={nmiNo} name="nmiNo" onChange={handleChange} />
                         </div>
                         <div style={{ width: '90%', display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '10px 0' }}>
-                            {/* <FormInput placeholder="Panels" value={panels} name="panels" onChange={handleChange} /> */}
-                            <select>
+                            <FormInput placeholder="Panels" value={panels} name="panels" onChange={handleChange} />
+                            {/* <select>
                                 {
                                     inverterList.map((ele, idx) => {
                                         return(
@@ -224,7 +236,7 @@ function NonAdminDashboard() {
                                         )
                                     })
                                 }
-                            </select>
+                            </select> */}
                             {/* <Select
                                 className="basic-single"
                                 classNamePrefix="select"
@@ -237,7 +249,7 @@ function NonAdminDashboard() {
                                 options={inverterList}
 
                             /> */}
-                            {/* <FormInput placeholder="Inverter" value={inverter} name="inverter" onChange={handleChange} /> */}
+                            <FormInput placeholder="Inverter" value={inverter} name="inverter" onChange={handleChange} />
                         </div>
                         <div style={{ width: '90%', display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '10px 0' }}>
                             <FormInput placeholder="Roof Type" value={roofType} name="roofType" onChange={handleChange} />

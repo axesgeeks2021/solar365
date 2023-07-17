@@ -141,7 +141,7 @@ function Customer() {
                 <AdminSideNavigation />
             </div>
             <div style={{ width: '100%', padding: '20px 10px' }}>
-                <Button title="Create New Admin" background="green" margin="4px 0" color="white" onclick={() => setShowForm(!showForm)} />
+                <Button title="Create New Customer" background="green" margin="4px 0" color="white" onclick={() => setShowForm(!showForm)} />
                 <ul className="responsive-table">
                     <li className="table-header">
                         <div className="col col-2 text-center text-slate-50 text-base font-bold">Name</div>

@@ -90,7 +90,7 @@ function RegisterTeam() {
     const fetchData = () => {
         try {
             const myHeaders = new Headers();
-            myHeaders.append("Authorization", "Token c3fada3b7b528ba00f0beab9f6081b37b462ac08");
+            myHeaders.append("Authorization", `Token ${cookies.Authorization}`);
             myHeaders.append("Cookie", "csrftoken=svQq77wcRBEpbzWkYfqDJcnsopUicTNd; sessionid=1rloxayuhazv0kteh8za8nnulqar1bf1");
 
             const requestOptions = {
@@ -124,7 +124,7 @@ function RegisterTeam() {
                 <AdminSideNavigation />
             </div>
             <div style={{ width: '100%', padding: '20px 10px' }}>
-                <Button title="Create New Admin" background="green" margin="4px 0" color="white" onclick={() => setShowForm(!showForm)} />
+                <Button title="Create New Team" background="green" margin="4px 0" color="white" onclick={() => setShowForm(!showForm)} />
                 <ul className="responsive-table">
                     <li className="table-header">
                         <div className="col col-2 text-center text-slate-50 text-base font-bold">Name</div>

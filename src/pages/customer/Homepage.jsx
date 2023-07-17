@@ -17,8 +17,8 @@ function Homepage() {
         Authorization: `Token ${cookies.Authorization}`,
       },
     });
-
     const data = await res.data;
+    console.log(data)
     setStatus(data);
   };
 
@@ -50,21 +50,21 @@ function Homepage() {
             heading="Order details"
             text="Order Details"
             status={status[0]?.order_status}
-            link="/order-details"
+            link="/customer/order-details"
           />
           <Card
             src={pho}
             heading="Order details"
             text="Pre-Site Risk Assessment"
             status={status[0]?.presite_status}
-            link="/pre-site-risk-assessment"
+            link="/customer/pre-site-risk-assessment"
           />
           <Card
             src={pho}
             heading="Order details"
             text="Document Submission"
             status={status[0]?.doc_status}
-            link="/documents-upload"
+            link="/customer/documents-upload"
           />
         </div>
         <div className="w-screen flex justify-center items-center card-box">
@@ -73,21 +73,21 @@ function Homepage() {
             heading="Order details"
             text="Grid Connection Approval"
             status={status[0]?.grid_status}
-            link="/grid-connection-approval"
+            link="/customer/grid-connection-approval"
           />
           <Card
             src={pho}
             heading="Order details"
             text="Installation Details"
             status={status[0]?.installation_status}
-            link="/installation-details"
+            link="/customer/installation-details"
           />
           <Card
             src={pho}
             heading="Order details"
             text="Documents & Warranties"
             status={status[0]?.war_status}
-            link="/document-warranty"
+            link="/customer/document-warranty"
           />
         </div>
       </section>

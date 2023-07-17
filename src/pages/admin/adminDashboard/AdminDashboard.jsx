@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import Loading from '../../../components/loading/Loading'
 import OrderList from '../../../components/orders/OrderList'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import AdminSideNavigation from '../menu/AdminSideNavigation'
 import Button from '../../../components/Button/Button'
 
@@ -14,15 +14,20 @@ import Heading from '../../../components/heading/Heading'
 
 import FormInput from '../../../components/inputsfield/FormInput'
 
+import {BiLogOut} from "react-icons/bi"
+
 
 
 function AdminDashboard() {
 
-    const [cookies] = useCookies();
+    const [cookies, setCookies, removeCookies] = useCookies();
+
+    const navigate = useNavigate()
 
     const [loading, setLoading] = useState(false)
 
     const [orderLists, setOrderLists] = useState([])
+    const [userList, setUserList] = useState([])
 
     const [showForm, setShowForm] = useState(false)
 
@@ -82,14 +87,15 @@ function AdminDashboard() {
         }
     }
 
-    const createOrder = () => {
+    const createOrder = (e) => {
+        e.preventDefault()
         try {
             var myHeaders = new Headers();
             myHeaders.append("Authorization", `Token ${cookies.Authorization}`);
             myHeaders.append("Cookie", "csrftoken=svQq77wcRBEpbzWkYfqDJcnsopUicTNd");
             
             var formdata = new FormData();
-            formdata.append("username", "SR80270531");
+            formdata.append("username", username);
             formdata.append("system_Size", systemSize);
             formdata.append("building_Type", buildingType);
             formdata.append("nmi_no", nmiNo);
@@ -135,11 +141,19 @@ function AdminDashboard() {
 
             fetch("http://65.0.45.255:8000/username_list/", requestOptions)
                 .then(response => response.json())
-                .then(result => console.log(result))
+                .then(result => {
+                    setUserList(result)
+                    console.log(result)
+                })
                 .catch(error => console.log('error', error));
         } catch (error) {
             console.log(error)
         }
+    }
+
+    const logout = () => {
+        removeCookies('Authorization')
+        return navigate ('/login')
     }
 
 
@@ -160,6 +174,10 @@ function AdminDashboard() {
         <div className='container-fluid' style={{ display: 'flex', flexDirection: 'row' }}>
             <div>
                 <AdminSideNavigation />
+                <div style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '10px', padding: '0 23px'}}>
+                <BiLogOut />
+                <Button title="Logout" onclick={logout}/>
+                </div>
             </div>
             <div className="container py-5">
                 <div className='py-2 flex justify-end'>
@@ -209,12 +227,26 @@ function AdminDashboard() {
             {
                 showForm && <FormsContainer flexDirection="column" on>
                     <div style={{ width: '90%', display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '10px 0' }}>
-                        <Heading heading="Update your order..." size="200%" />
+                        <Heading heading="Create order..." size="200%" />
                     </div>
-                    <form style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
+                    <form style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }} onSubmit={createOrder}>
                         <div style={{ width: '90%', display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '10px 0' }}>
-                            <FormInput placeholder="Username" value={username} name="username" onChange={handleChange} />
+                            <div style={{width: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                            <select name='username' value={username} onChange={handleChange} style={{border: '2px solid gray', width: '95%', padding: '5px 0'}}>
+                                <option style={{textAlign: 'center'}} >Select User List</option>
+                                {
+                                    userList?.data?.map((ele, idx) => {
+                                        return(
+                                            <option value={ele} key={idx}>{ele}</option>
+                                        )
+                                    })
+                                }
+                            </select>
+                            </div>
+                            <div style={{width: '50%'}}>
+                            {/* <FormInput placeholder="Username" value={username} name="username" onChange={handleChange} /> */}
                             <FormInput placeholder="System Size" value={systemSize} name="systemSize" onChange={handleChange} />
+                            </div>
                         </div>
                         <div style={{ width: '90%', display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '10px 0' }}>
                             <FormInput placeholder="Building Type" value={buildingType} name="buildingType" onChange={handleChange} />
@@ -244,7 +276,7 @@ function AdminDashboard() {
                             <FormInput placeholder="Document File" type="file" onChange={handleFile} />
                         </div>
                         <div style={{ width: '90%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', margin: '10px 0', gap: '10px' }}>
-                            <Button title="Submit" background="orange" color="white"  onclick={createOrder}/>
+                            <Button title="Submit" background="orange" color="white"  type="submit"/>
                             <Button title="Close" background="gray" color="white" onclick={() => setShowForm(false)} />
                         </div>
                     </form>

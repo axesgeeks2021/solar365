@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Line from '../../../components/heading/Line'
 import Heading from '../../../components/heading/Heading'
 import Button from '../../../components/Button/Button'
@@ -17,6 +17,8 @@ function InverterOrders() {
     const data = useLocation()
 
     const [cookies] = useCookies();
+
+    const navigate = useNavigate()
 
     const [file, setFile] = useState()
 
@@ -92,10 +94,15 @@ function InverterOrders() {
 
     return (
         <div className='admin__order__container' style={{justifyContent: 'flex-start'}}>
-            <div className='flex justify-end items-center gap-5 py-2 px-4' style={{ width: "100%", borderBottom: '2px solid white' }}>
-                <Button title="Update" color="white" background="orange" onclick={() => setDisplayForm(!displayForm)} />
-                <Button title="Delete" color="white" background="red" />
-            </div>
+             <div className='flex justify-end items-center gap-5 py-2 px-4' style={{ width: "100%", borderBottom: '2px solid lightgray' }}>
+        <div style={{ width: '50%' }}>
+          <Button title="Go Back" color="white" background="lightgray" onclick={() => navigate(-1)} alignSelf="flex-start" />
+        </div>
+        <div style={{ width: '50%', display: 'flex', justifyContent: 'flex-end', gap: '20px', padding: '0 10px' }}>
+          <Button title="Update" color="white" background="orange" onclick={() => setDisplayForm(!displayForm)} />
+          <Button title="Delete" color="white" background="red" />
+        </div>
+      </div>
             <div className='admin__card'>
                 <div className='admin__order__details'>
                     <div style={{ display: 'flex', justifyContent: 'space-between', margin: "10px 0" }}>

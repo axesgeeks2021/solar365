@@ -74,9 +74,9 @@ function App() {
   };
 
   const logout = () => {
-    setShow(false)
+    // setShow(false)
     removeCookies("Authorization");
-    navigate("/login");
+    return navigate("/login");
   };
 
   const auth = JSON.parse(localStorage.getItem('auth'))
@@ -92,23 +92,6 @@ function App() {
      return navigate('/all-login')
     }
   }, [])
-
-  
-
-
-  // return (
-
-  //   <Routes>
-  //      <Route path="/login" element={<Login />} />
-  //      <Route path="/non-admin-registration" element={<NonAdminRegisterForm />} />
-  //      <Route path="/non-admin-profile" element={<NonAdminProfile />} />
-  //      <Route path="/non-admin" element={<NonAdminDashboard />} />
-  //      <Route path="/register-non-admin" element={<RegisterNonAdmin />} />
-  //      <Route path="/non-admin/register-customer" element={<NonAdminCustomer />} />
-  //      <Route path="/non-admin/orders" element={<NonAdminOrders />} />
-  //      <Route path="/non-admin/calendar" element={<NonAdminCalendar />} />
-  //    </Routes>
-  // )
 
   if (auth?.user?.user_type === "CUSTOMER") {
     return (
@@ -127,20 +110,20 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/order-details" element={<OrderDetails />} />
-          <Route path="/documents-upload" element={<DocumentsUpload />} />
-          <Route path="/grid-connection-approval" element={<GridConnection />} />
-          <Route path="/installation-details" element={<InstallationDetails />} />
-          <Route path="/document-warranty" element={<DocumentWarranty />} />
-          <Route path="/billing-info" element={<BillingInfo />} />
-          <Route path="/refer-a-friend" element={<ReferAFriend />} />
-          <Route path="/call-support" element={<CallSupport />} />
-          <Route path="/refer-a-friend" element={<ReferAFriend />} />
+          <Route path="/customer/order-details" element={<OrderDetails />} />
+          <Route path="/customer/documents-upload" element={<DocumentsUpload />} />
+          <Route path="/customer/grid-connection-approval" element={<GridConnection />} />
+          <Route path="/customer/installation-details" element={<InstallationDetails />} />
+          <Route path="/customer/document-warranty" element={<DocumentWarranty />} />
+          <Route path="/customer/billing-info" element={<BillingInfo />} />
+          <Route path="/customer/refer-a-friend" element={<ReferAFriend />} />
+          <Route path="/customer/call-support" element={<CallSupport />} />
+          <Route path="/customer/refer-a-friend" element={<ReferAFriend />} />
           <Route
-            path="/pre-site-risk-assessment"
+            path="/customer/pre-site-risk-assessment"
             element={<PreSiteRiskAssessment />}
           />
-          <Route path="accordian" element={<Accordian />} />
+          {/* <Route path="accordian" element={<Accordian />} /> */}
         </Routes>
       </>
     )
@@ -169,7 +152,6 @@ function App() {
           <Route path="/register-admin" element={<RegisterAdmin />} />
           <Route path="/register-non-admin" element={<RegisterNonAdmin />} />
           <Route path="/update-profile" element={<UpdateProfile />} />
-          {/* <Route path="/all-login" element={<AllLogin />} /> */}
           <Route path="/unapproved-company" element={<UnapprovedCompany />} />
           <Route path="/approved-company" element={<ApprovedCompany />} />
           <Route path="/admin-profile" element={<AdminProfile />} />
@@ -185,7 +167,6 @@ function App() {
         {
           cookies.Authorization && auth?.user?.user_type === "ADMIN" ? <AdminSideNavigation /> : null
         }
-        <Route path="/login" element={<Login />} />
         <Route path="/non-admin-registration" element={<NonAdminRegisterForm />} />
         <Route path="/non-admin-profile" element={<NonAdminProfile />} />
         <Route path="/non-admin" element={<NonAdminDashboard />} />
@@ -195,6 +176,8 @@ function App() {
         <Route path="/non-admin/calendar" element={<NonAdminCalendar />} />
         <Route path="/non-admin/practice" element={<Practice />} />
         <Route path="/non-admin/update-profile" element={<NonAdminUpdateProfile />} />
+        <Route path="/login" element={<Login />} />
+
       </Routes>
     )
   }

@@ -68,7 +68,7 @@ function NonAdminSideNavigation() {
       },
       {
         title: 'Profiles',
-        itemId: "/admin-profile",
+        itemId: "/non-admin-profile",
         elemBefore: () => <HiBuildingOffice2 />,
         // subNav: [
         //   {

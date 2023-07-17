@@ -15,11 +15,32 @@ function OtherComponent() {
 
     const [cookies] = useCookies();
 
-
     const [otherComponentData, setotherComponentData] = useState([])
 
     const [displayForm, setDisplayForm] = useState(false)
 
+    const [file, setFile] = useState(null)
+    const [text, setText] = useState({
+        code: "",
+        manufacturer: "",
+        smartMeter: "",
+        componentType: "",
+        productWarranty: "",
+        optimisor: "",
+        optimisorHeading: "",
+        smartMeterHeading: "",
+        title: ""
+    })
+
+    const {code, componentType, manufacturer, optimisor, optimisorHeading, productWarranty,smartMeter, smartMeterHeading, title } = text
+
+    const handleText = e => {
+        setText({...text, [e.target.name]: e.target.value})
+    }
+
+    const handleFile = e => {
+        setFile(e.target.files[0])
+    }
 
     const fetchRecord = async () => {
         try {
@@ -41,6 +62,42 @@ function OtherComponent() {
         }
     }
 
+    const createOtherComponent = e => {
+        e.preventDefault()
+        try {
+            const myHeaders = new Headers();
+            myHeaders.append('Authorization', `Token ${cookies.Authorization}`)
+            myHeaders.append("Cookie", "csrftoken=svQq77wcRBEpbzWkYfqDJcnsopUicTNd");
+
+            const formdata = new FormData();
+            formdata.append("code", title);
+            formdata.append("component_logo", file);
+            formdata.append("manufacturer", manufacturer);
+            formdata.append("smart_meter", smartMeter);
+            formdata.append("component_type", componentType);
+            formdata.append("product_warranty", productWarranty);
+            formdata.append("my_list", "true");
+            formdata.append("optimisor", optimisor);
+            formdata.append("optimisor_heading", optimisorHeading);
+            formdata.append("smart_meter_heading", smartMeterHeading);
+            formdata.append("title", title);
+
+            const requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: formdata,
+                redirect: 'follow'
+            };
+
+            fetch("http://65.0.45.255:8000/other_component/", requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         const subscribe = fetchRecord()
 
@@ -55,7 +112,7 @@ function OtherComponent() {
                 </div>
                 <div className="container py-5">
                     <div className='py-2 flex justify-end'>
-                        <Button title="Create New Panel" background="aqua" color="gray" onclick={() => setDisplayForm(true)} />
+                        <Button title="Create New Other Component" background="aqua" color="gray" onclick={() => setDisplayForm(true)} />
                     </div>
                     <ul className="responsive-table">
                         <li className="table-header">
@@ -81,22 +138,26 @@ function OtherComponent() {
                     </ul>
                 </div>
             </div>
-            <div style={{ transition: "0.4s", width: "60%", height: '90vh', background: 'white', display: displayForm ? 'flex' : 'none', justifyContent: 'center', alignItems: 'center', position: 'absolute', left: '50%', top: "50%", boxShadow: '2px 2px 10px 1px rgba(0,0,0,0.2),-2px -2px 10px 1px rgba(0,0,0,0.2)', overflow: 'hidden', transform: 'translate(-50%, -50%)' }}>
+            <div style={{ transition: "0.4s", width: "60%", height: '90vh', background: 'white', display: displayForm ? 'flex' : 'none', justifyContent: 'center', alignItems: 'flex-start', position: 'absolute', left: '50%', top: "50%", boxShadow: '2px 2px 10px 1px rgba(0,0,0,0.2),-2px -2px 10px 1px rgba(0,0,0,0.2)', overflow: 'hidden', transform: 'translate(-50%, -50%)', overflowY: 'scroll' }}>
                 {/* <ImCross style={{position: 'absolute', top: '5px', left: '10px', cursor: 'pointer'}} onClick={() => setDisplayForm(false)}/> */}
                 <div className='my-10 flex flex-col justify-center items-center gap-3' style={{ width: "80%" }}>
-                    <Heading heading="Enter details for creating new Panels" />
-                    <FormInput width="100%" placeholder="Title" />
-                    <FormInput width="100%" placeholder="Product Code" />
-                    <FormInput width="100%" placeholder="upload your logo" />
-                    <FormInput width="100%" placeholder="Inverter Type" />
-                    <FormInput width="100%" placeholder="Rated Output Power..." />
-                    <FormInput width="100%" placeholder="Product warranty" />
-                    <FormInput width="100%" placeholder="Additional part warranty" />
-                    <FormInput width="100%" placeholder="Manufacturer" />
+                    <Heading heading="Enter details for creating new other components" color="black"/>
+                    <form className='flex flex-col justify-center items-center gap-2' style={{ width: "100%" }} onSubmit={createOtherComponent}>
+                    <FormInput width="100%" placeholder="Title" value={title} name="title" onChange={handleText}/>
+                    <FormInput width="100%" placeholder="Product Code" value={code} name="code" onChange={handleText}/>
+                    <FormInput width="100%" placeholder="upload your logo" type="file" onChange={handleFile} />
+                    <FormInput width="100%" placeholder="Component Type"value={componentType} name="componentType" onChange={handleText} />
+                    <FormInput width="100%" placeholder="Optimisor" value={optimisor} name="optimisor" onChange={handleText}/>
+                    <FormInput width="100%" placeholder="Optimisor Heading" value={optimisorHeading} name="optimisorHeading" onChange={handleText}/>
+                    <FormInput width="100%" placeholder="Product Warranty" value={productWarranty} name="productWarranty" onChange={handleText}/>
+                    <FormInput width="100%" placeholder="Smart Meter" value={smartMeter} name="smartMeter" onChange={handleText}/>
+                    <FormInput width="100%" placeholder="Smart Meter Heading" value={smartMeterHeading} name="smartMeterHeading" onChange={handleText}/>
+                    <FormInput width="100%" placeholder="Manufacturer" value={manufacturer} name="manufacturer" onChange={handleText}/>
                     <div className='flex gap-5 justify-end items-end' style={{ width: "100%" }}>
-                        <Button title="Submit" background="orange" />
+                        <Button title="Submit" background="orange" type="submit"/>
                         <Button title="Close" background="gray" type="button" onclick={() => setDisplayForm(false)} />
                     </div>
+                    </form>
                 </div>
             </div>
         </>

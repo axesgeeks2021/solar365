@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import SideMenu from '../menu/SideMenu'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Button from '../../../components/Button/Button';
 
 import FormInput from '../../../components/inputsfield/FormInput';
@@ -15,11 +15,32 @@ function Inverter() {
 
     const [cookies] = useCookies();
 
+    const navigate = useNavigate()
 
     const [inverterData, setInverterData] = useState([])
 
     const [displayForm, setDisplayForm] = useState(false)
 
+    const [file, setFile] = useState(null)
+
+    const [text, setText] = useState({
+        code: "",
+        ratedOutputPower: "",
+        productWaranty: "",
+        additionalPartWarranty: "",
+        inverterType : "",
+        manufacturer: ""
+    })
+
+    const {additionalPartWarranty, code, inverterType, manufacturer, productWaranty, ratedOutputPower} = text
+
+    const handleText = e => {
+        setText({...text, [e.target.name]: e.target.value})
+    }
+
+    const handleFile = e => {
+        setFile(e.target.files[0])
+    }
 
     const fetchRecord = async () => {
         try {
@@ -41,6 +62,41 @@ function Inverter() {
         }
     }
 
+    const createInverter = e => {
+        e.preventDefaul()
+
+        try {
+            const myHeaders = new Headers();
+            myHeaders.append('Authorization', `Token ${cookies.Authorization}`)
+            myHeaders.append("Cookie", "csrftoken=svQq77wcRBEpbzWkYfqDJcnsopUicTNd");
+
+            const formdata = new FormData();
+            formdata.append("code", code);
+            formdata.append("inverter_logo", file);
+            formdata.append("rated_output_power", ratedOutputPower);
+            formdata.append("product_warranty", productWaranty);
+            formdata.append("additional_part_warranty",additionalPartWarranty);
+            formdata.append("inverter_type", inverterType);
+            formdata.append("my_list", "true");
+            formdata.append("default_inverter_range", "false");
+            formdata.append("manufacturer", manufacturer);
+
+            const requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: formdata,
+                redirect: 'follow'
+            };
+
+            fetch("http://65.0.45.255:8000/inverter_module/", requestOptions)
+                .then(response => response.json())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         const subscribe = fetchRecord()
 
@@ -55,7 +111,7 @@ function Inverter() {
                 </div>
                 <div className="container py-5">
                     <div className='py-2 flex justify-end'>
-                        <Button title="Create New Panel" background="aqua" color="gray" onclick={() => setDisplayForm(true)} />
+                        <Button title="Create New Inverters" background="aqua" color="gray" onclick={() => setDisplayForm(true)} />
                     </div>
                     <ul className="responsive-table">
                         <li className="table-header">
@@ -84,19 +140,20 @@ function Inverter() {
             <div style={{ transition: "0.4s", width: "60%", height: '90vh', background: 'white', display: displayForm ? 'flex' : 'none', justifyContent: 'center', alignItems: 'center', position: 'absolute', left: '50%', top: "50%", boxShadow: '2px 2px 10px 1px rgba(0,0,0,0.2),-2px -2px 10px 1px rgba(0,0,0,0.2)', overflow: 'hidden', transform: 'translate(-50%, -50%)' }}>
                 {/* <ImCross style={{position: 'absolute', top: '5px', left: '10px', cursor: 'pointer'}} onClick={() => setDisplayForm(false)}/> */}
                 <div className='my-10 flex flex-col justify-center items-center gap-3' style={{ width: "80%" }}>
-                    <Heading heading="Enter details for creating new Panels" />
-                    <FormInput width="100%" placeholder="Title" />
-                    <FormInput width="100%" placeholder="Product Code" />
-                    <FormInput width="100%" placeholder="upload your logo" />
-                    <FormInput width="100%" placeholder="Inverter Type" />
-                    <FormInput width="100%" placeholder="Rated Output Power..." />
-                    <FormInput width="100%" placeholder="Product warranty" />
-                    <FormInput width="100%" placeholder="Additional part warranty" />
-                    <FormInput width="100%" placeholder="Manufacturer" />
+                    <Heading heading="Enter details for creating new Inverters" />
+                    <form className='flex flex-col justify-center items-center gap-3' style={{ width: "100%" }} onSubmit={createInverter}>
+                    <FormInput width="100%" placeholder="Product Code" value={code} name="code" onChange={handleText}/>
+                    <FormInput width="100%" placeholder="upload your logo" type="file" onChange={handleFile}/>
+                    <FormInput width="100%" placeholder="Inverter Type" value={inverterType} name="inverterType" onChange={handleText}/>
+                    <FormInput width="100%" placeholder="Rated Output Power..." value={ratedOutputPower} name="ratedOutputPower" onChange={handleText}/>
+                    <FormInput width="100%" placeholder="Product warranty" value={productWaranty} name="productWaranty" onChange={handleText}/>
+                    <FormInput width="100%" placeholder="Additional part warranty" value={additionalPartWarranty} name="additionalPartWarranty" onChange={handleText}/>
+                    <FormInput width="100%" placeholder="Manufacturer" value={manufacturer} name="manufacturer" onChange={handleText}/>
                     <div className='flex gap-5 justify-end items-end' style={{ width: "100%" }}>
-                        <Button title="Submit" background="orange" />
+                        <Button title="Submit" background="orange" type="submit"/>
                         <Button title="Close" background="gray" type="button" onclick={() => setDisplayForm(false)} />
                     </div>
+                    </form>
                 </div>
             </div>
         </>
