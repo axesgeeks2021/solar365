@@ -56,6 +56,7 @@ import NonAdminCustomer from "./pages/nonAdmin/organization/Customer"
 import NonAdminOrders from "./pages/nonAdmin/orders/NonAdminOrders"
 import NonAdminCalendar from "./pages/nonAdmin/calendar/Calender"
 import Practice from "./pages/nonAdmin/Practice";
+import NonAdminUpdateProfile from "./pages/nonAdmin/user/UpdateProfile"
 
 
 function App() {
@@ -166,6 +167,7 @@ function App() {
           <Route path="/register-team" element={<RegisterTeam />} />
           <Route path="/register-installer" element={<RegisterInstaller />} />
           <Route path="/register-admin" element={<RegisterAdmin />} />
+          <Route path="/register-non-admin" element={<RegisterNonAdmin />} />
           <Route path="/update-profile" element={<UpdateProfile />} />
           {/* <Route path="/all-login" element={<AllLogin />} /> */}
           <Route path="/unapproved-company" element={<UnapprovedCompany />} />
@@ -192,6 +194,7 @@ function App() {
         <Route path="/non-admin/orders" element={<NonAdminOrders />} />
         <Route path="/non-admin/calendar" element={<NonAdminCalendar />} />
         <Route path="/non-admin/practice" element={<Practice />} />
+        <Route path="/non-admin/update-profile" element={<NonAdminUpdateProfile />} />
       </Routes>
     )
   }

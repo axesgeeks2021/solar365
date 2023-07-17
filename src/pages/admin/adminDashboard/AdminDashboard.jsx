@@ -84,12 +84,12 @@ function AdminDashboard() {
 
     const createOrder = () => {
         try {
-            const myHeaders = new Headers();
+            var myHeaders = new Headers();
             myHeaders.append("Authorization", `Token ${cookies.Authorization}`);
-            myHeaders.append("Cookie", "csrftoken=svQq77wcRBEpbzWkYfqDJcnsopUicTNd; sessionid=1rloxayuhazv0kteh8za8nnulqar1bf1");
-
-            const formdata = new FormData();
-            formdata.append("username", "SR35407431");
+            myHeaders.append("Cookie", "csrftoken=svQq77wcRBEpbzWkYfqDJcnsopUicTNd");
+            
+            var formdata = new FormData();
+            formdata.append("username", "SR80270531");
             formdata.append("system_Size", systemSize);
             formdata.append("building_Type", buildingType);
             formdata.append("nmi_no", nmiNo);
@@ -102,20 +102,20 @@ function AdminDashboard() {
             formdata.append("document_file", file);
             formdata.append("panels_quantity", panelsQuantity);
             formdata.append("inverter_quantity", inverterQuantity);
-            formdata.append("other_component", otherComponent);
+            formdata.append("other_component",otherComponent);
             formdata.append("batteries", batteries);
-
-            const requestOptions = {
-                method: 'POST',
-                headers: myHeaders,
-                body: formdata,
-                redirect: 'follow'
+            
+            var requestOptions = {
+              method: 'POST',
+              headers: myHeaders,
+              body: formdata,
+              redirect: 'follow'
             };
-
+            
             fetch("http://65.0.45.255:8000/order/", requestOptions)
-                .then(response => response.json())
-                .then(result => console.log(result))
-                .catch(error => console.log('error', error));
+              .then(response => response.json())
+              .then(result => console.log(result))
+              .catch(error => console.log('error', error));
         } catch (error) {
             console.log(error)
         }
@@ -141,8 +141,6 @@ function AdminDashboard() {
             console.log(error)
         }
     }
-
-
 
 
     useEffect(() => {
@@ -213,7 +211,7 @@ function AdminDashboard() {
                     <div style={{ width: '90%', display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '10px 0' }}>
                         <Heading heading="Update your order..." size="200%" />
                     </div>
-                    <form style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }} onSubmit={createOrder}>
+                    <form style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
                         <div style={{ width: '90%', display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '10px 0' }}>
                             <FormInput placeholder="Username" value={username} name="username" onChange={handleChange} />
                             <FormInput placeholder="System Size" value={systemSize} name="systemSize" onChange={handleChange} />
@@ -246,7 +244,7 @@ function AdminDashboard() {
                             <FormInput placeholder="Document File" type="file" onChange={handleFile} />
                         </div>
                         <div style={{ width: '90%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', margin: '10px 0', gap: '10px' }}>
-                            <Button title="Submit" background="orange" color="white" />
+                            <Button title="Submit" background="orange" color="white"  onclick={createOrder}/>
                             <Button title="Close" background="gray" color="white" onclick={() => setShowForm(false)} />
                         </div>
                     </form>

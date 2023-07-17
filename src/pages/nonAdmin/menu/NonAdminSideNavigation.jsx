@@ -63,7 +63,7 @@ function NonAdminSideNavigation() {
       // },
       {
         title: 'Update Profile',
-        itemId: '/update-profile',
+        itemId: '/non-admin/update-profile',
         elemBefore: () => <CgProfile />,
       },
       {

@@ -29,7 +29,7 @@ function Login() {
 
   const body = {
     username: username,
-    password: parseInt(password),
+    password: password,
   };
 
   const getLogin = async (e) => {

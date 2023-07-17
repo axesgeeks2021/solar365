@@ -5,7 +5,7 @@ import { useState } from 'react'
 import FormsContainer from '../Forms/FormsContainer'
 import FormInput from '../../../components/inputsfield/FormInput'
 import Loading from '../../../components/loading/Loading'
-import AdminSideNavigation from '../menu/AdminSideNavigation'
+import AdminSideNavigation from '../menu/NonAdminSideNavigation'
 
 import { useCookies } from "react-cookie";
 
@@ -13,7 +13,6 @@ import { useCookies } from "react-cookie";
 function UpdateProfile() {
 
     const [cookies] = useCookies();
-
 
     const [display, setDisplay] = useState({
         admin: false,
@@ -172,10 +171,10 @@ function UpdateProfile() {
                     <Heading heading="Select one option to update profile..." size="150%" />
                 </div>
                 <div style={{ width: "100%", height: "80%", display: "flex", justifyContent: 'center', alignItems: "center", flexDirection: 'column', gap: "20px" }}>
-                    <Button color="white" background="green" title="Update Admin" onclick={displayAdminForm} />
+                    {/* <Button color="white" background="green" title="Update Admin" onclick={displayAdminForm} /> */}
                     <Button color="white" background="green" title="Update Non Admin" onclick={displayNonAdminForm}/>
                     <Button color="white" background="green" title="Update Team" onclick={displayTeamForm}/>
-                    <Button color="white" background="green" title="Update Installer" onclick={displayInstallerForm}/>
+                    {/* <Button color="white" background="green" title="Update Installer" onclick={displayInstallerForm}/> */}
                     <Button color="white" background="green" title="Update Customer" onclick={displayCustomerForm}/>
                 </div>
             </div>

@@ -34,6 +34,8 @@ function AdminOrders() {
 
   const [orderDetails, setOrderDetails] = useState([])
 
+  console.log('check ',orderDetails)
+
   const [file, setFile] = useState()
 
   const handleFile = e => {
@@ -115,7 +117,7 @@ function AdminOrders() {
         .then(response => response.json())
         .then(result => {
           // setLoading(false)
-          console.log(result)
+          // console.log('order detials',result)
           setOrderDetails(result)
         })
         .catch(error => console.log('error', error));
@@ -165,14 +167,14 @@ function AdminOrders() {
 
               </div>
               <div style={{ height: showState ? "auto" : 0, overflow: 'hidden', transition: "0.3s" }} className='accordian__answer'>
-                <Line title="Project" value={orderDetails?.project} />
-                <Line title="Customer Email" value={orderDetails?.customer_name} />
-                <Line title="Installation Type" value={orderDetails?.installation_type} />
-                <Line title="Building Type" value={orderDetails?.building_Type} />
-                <Line title="Quotation" value={orderDetails?.quotation} />
-                <Line title="Nmi Number" value={orderDetails?.nmi_no} />
-                <Line title="Meter Phase" value={orderDetails?.meter_Phase} />
-                <Line title="Status" value={orderDetails?.order_status} />
+                <Line title="Project" value={orderDetails?.order_details?.project} />
+                <Line title="Customer Email" value={orderDetails?.order_details?.customer_name} />
+                <Line title="Installation Type" value={orderDetails?.order_details?.installation_type} />
+                <Line title="Building Type" value={orderDetails?.order_details?.building_Type} />
+                <Line title="Quotation" value={orderDetails?.order_details?.quotation} />
+                <Line title="Nmi Number" value={orderDetails?.order_details?.nmi_no} />
+                <Line title="Meter Phase" value={orderDetails?.order_details?.meter_Phase} />
+                <Line title="Status" value={orderDetails?.order_details?.order_status} />
               </div>
             </div>
             {/* <Line title="Project" value={data.state.ele.project} />
@@ -201,12 +203,12 @@ function AdminOrders() {
 
               </div>
               <div style={{ height: showState1 ? "auto" : 0, overflow: 'hidden', transition: "0.3s" }} className='accordian__answer'>
-                <Line title="Title" value={orderDetails?.panels?.title} />
-                <Line title="Code" value={orderDetails?.panels?.code} />
-                <Line title="Manufacturer" value={orderDetails?.panels?.manufacturer} />
-                <Line title="Performance Warranty" value={orderDetails?.panels?.performance_warranty} />
-                <Line title="Product Warranty" value={orderDetails?.panels?.product_warranty} />
-                <Line title="Technology" value={orderDetails?.panels?.technology} />
+                <Line title="Title" value={orderDetails?.order_details?.panels?.title} />
+                <Line title="Code" value={orderDetails?.order_details?.panels?.code} />
+                <Line title="Manufacturer" value={orderDetails?.order_details?.panels?.manufacturer} />
+                <Line title="Performance Warranty" value={orderDetails?.order_details?.panels?.performance_warranty} />
+                <Line title="Product Warranty" value={orderDetails?.order_details?.panels?.product_warranty} />
+                <Line title="Technology" value={orderDetails?.order_details?.panels?.technology} />
               </div>
             </div>
             {/* <Line title="Project" value={data.state.ele.project} />
@@ -239,12 +241,12 @@ function AdminOrders() {
 
               </div>
               <div style={{ height: showState2 ? "auto" : 0, overflow: 'hidden', transition: "0.3s" }} className='accordian__answer'>
-                <Line title="Title" value={orderDetails?.inverter?.title} />
-                <Line title="Code" value={orderDetails?.inverter?.code} />
-                <Line title="Manufacturer" value={orderDetails?.inverter?.manufacturer} />
-                <Line title="Inverter Type" value={orderDetails?.inverter?.inverter_type} />
-                <Line title="Product Warranty" value={orderDetails?.inverter?.product_warranty} />
-                <Line title="Rated Output Power" value={orderDetails?.inverter?.rated_ouptut_power} />
+                <Line title="Title" value={orderDetails?.order_details?.inverter?.title} />
+                <Line title="Code" value={orderDetails?.order_details?.inverter?.code} />
+                <Line title="Manufacturer" value={orderDetails?.order_details?.inverter?.manufacturer} />
+                <Line title="Inverter Type" value={orderDetails?.order_details?.inverter?.inverter_type} />
+                <Line title="Product Warranty" value={orderDetails?.order_details?.inverter?.product_warranty} />
+                <Line title="Rated Output Power" value={orderDetails?.order_details?.inverter?.rated_ouptut_power} />
               </div>
             </div>
             {/* <Line title="Project" value={data.state.ele.project} />
@@ -279,7 +281,7 @@ function AdminOrders() {
               </div>
               <div style={{ height: showState3 ? "auto" : 0, overflow: 'hidden', transition: "0.3s" }} className='accordian__answer'>
                 {
-                  orderDetails?.other_component?.map((ele, idx) => {
+                  orderDetails?.order_details?.other_component?.map((ele, idx) => {
                     return (
                       <div key={idx} style={{borderRight: '1px solid black'}}>
                         <Line title="Title" value={ele.title} />
